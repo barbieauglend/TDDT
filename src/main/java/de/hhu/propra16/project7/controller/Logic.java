@@ -197,7 +197,7 @@ public class Logic {
 
 	
 
-	public void BabySteps(String classname, String eingabe, int time)  {  //Für Tracking benötigen wir jedoch die vom User eingestellte Zeit.
+	public void BabySteps(String classname, String eingabe, int time)  {
 
 
 			if (getStatus() == Status.Green  //Falls Code nicht kompiliert, oder ein Test fehlschlägt: Bedingung nicht erfüllt!

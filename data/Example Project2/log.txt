@@ -1,0 +1,10 @@
+16.07.2016, 16:23:34 - Status changed to GREEN (Babysteps ON).
+                       The status was successfully changed after 1 minute/s and 0 second/s.
+                       Graphical representation: [***********                                                                                         ] <- 10 minutes (Babysteps maxtime)
+                                                            ^ 10%
+
+16.07.2016, 16:39:26 - Status changed to GREEN (Babysteps ON).
+                       The status was successfully changed after 1 minute/s and 0 second/s.
+                       Graphical representation: [***********                                                                                         ] <- 10 minutes (Babysteps maxtime)
+                                                            ^ 10%
+

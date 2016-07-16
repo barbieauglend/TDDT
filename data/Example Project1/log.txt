@@ -1,0 +1,12 @@
+16.07.2016, 13:16:58 - Status changed to GREEN (Babysteps OFF).
+                       The status was successfully changed after 1 minute/s and 44 second/s.
+
+16.07.2016, 13:17:30 - Status changed to RED (Babysteps OFF).
+                       The status was successfully changed after -1 minute/s and -13 second/s.
+
+16.07.2016, 13:18:13 - Status changed to GREEN (Babysteps OFF).
+                       The status was successfully changed after 1 minute/s and 56 second/s.
+
+16.07.2016, 13:19:05 - Status changed to RED (Babysteps OFF).
+                       The status was successfully changed after -1 minute/s and -4 second/s.
+

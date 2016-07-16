@@ -93,17 +93,18 @@ public class Main_Controller
 	{
 		if( babyStepsToggleGrp.getSelectedToggle() == babyStepsYes) {
 			_baby = true;
-			_time = minuten.getValue();
 			}
 		else _baby = false;
+		
+		_time = minuten.getValue();
 		
 		if( aktProject == null ) return;
 		// Wechselt in das nächste Fenster, wenn der Start Button geklickt wird
 		Stage stage = (Stage) startButton.getScene().getWindow();
-		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/project_window.fxml"));
+		FXMLLoader fxmlloader = new FXMLLoader();
+		Parent root = fxmlloader.load(getClass().getResource("/project_window.fxml").openStream());
 		pc = (Project_Controller) fxmlloader.getController();
         pc.initialData(aktProject, _baby, _time);
-        Parent root = fxmlloader.load();
         Scene scene = new Scene(root, 640, 480);
 		stage.setScene(scene);
 		stage.setResizable(false);

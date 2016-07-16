@@ -33,7 +33,7 @@ public class Project_Controller implements Initializable
 	private CodeTemplate ct;
 	private boolean _baby;
 	private Timer _timer;
-	private double babyTime;
+	private int babyTime;
 
 	public Project_Controller()	{
 		
@@ -47,6 +47,9 @@ public class Project_Controller implements Initializable
 	
 	public void setProject(Project project){
 		_project = project;
+		projectLogic = new Logic(_project.getTitle(),Status.Red);
+		ct = (CodeTemplate) _project.getTestTemplates().get(0);
+    	fillWithTemplate();
 	}
 	
 	public void setBaby(boolean baby){
@@ -54,7 +57,8 @@ public class Project_Controller implements Initializable
 	}
 	
 	public void setTime(double time){
-		babyTime = time;
+		babyTime = (int) time;
+		lbcounter.setText("Have Fun");
 	}
 	
 	public void setStatus(Status status){
@@ -62,8 +66,7 @@ public class Project_Controller implements Initializable
 	}
 
 	public void initialize(URL url, ResourceBundle rb) {
-		projectLogic = new Logic(_project.getTitle(),Status.Red);
-		ct = (CodeTemplate) _project.getTestTemplates().get(0);
+
 		_timer = new Timer();
         _timer.schedule(new TimerTask()	{
 			@Override
@@ -76,24 +79,22 @@ public class Project_Controller implements Initializable
 				});
 			}
 		}, 1000, 1000);
-        	fillWithTemplate();
+
     		statusLight.setFill(Color.RED);
     		statusAnweisung.setText("Write Tests");
-
 	}
 
 
 
 	private void SetTimerLabel(){
 
-		double _secondsElapsed = babyTime*60;
-
+		int _secondsElapsed = babyTime*60;
 		_secondsElapsed--;
-
-		int minutes = (int) (_secondsElapsed / 60);
-		int seconds = (int) (_secondsElapsed % 60);
-
-		lbcounter.setText(String.format("%d:%02d", minutes, seconds));
+		
+		int minutes = _secondsElapsed / 60;
+		int seconds = _secondsElapsed % 60;
+		
+		lbcounter.setText(String.valueOf(minutes) + ":" + String.valueOf(seconds));
 	}
 
 	@FXML

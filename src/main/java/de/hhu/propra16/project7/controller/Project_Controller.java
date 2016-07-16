@@ -18,7 +18,7 @@ import javafx.scene.text.*;
 import javafx.scene.shape.*;
 import javafx.scene.paint.*;
 
-public class Project_Controller
+public class Project_Controller implements Initializable
 {
 	@FXML Button testButton, codeButton, refractoringButton, backButton;
 	@FXML TextArea codewindow;
@@ -26,30 +26,46 @@ public class Project_Controller
 	@FXML Text statusAnweisung;
 	@FXML Label lbcounter;
 	@FXML Text aufgabenName;
-
-	private Status currStatus;
-	private Project project;
+	
+	private Status _currStatus;
+	private Project _project;
 	private Logic projectLogic;
 	private CodeTemplate ct;
 	private boolean _baby;
 	private Timer _timer;
 	private double babyTime;
 
-	public Project_Controller(Status currStatus, Project project, boolean baby, double minuten)
-	{
-		this.currStatus = currStatus;
-		this.project = project;
-		projectLogic = new Logic(project.getTitle(),currStatus);
-		ct = (CodeTemplate) project.getTestTemplates().get(0);
+	public Project_Controller()	{
+		
+	}
+	
+	public void initialData(Project project, boolean baby, double time){
+		setProject(project);
+		setBaby(baby);
+		setTime(time);
+	}
+	
+	public void setProject(Project project){
+		_project = project;
+	}
+	
+	public void setBaby(boolean baby){
 		_baby = baby;
-		babyTime = minuten;
+	}
+	
+	public void setTime(double time){
+		babyTime = time;
+	}
+	
+	public void setStatus(Status status){
+		_currStatus = Status.Red;
 	}
 
 	public void initialize(URL url, ResourceBundle rb) {
-            currStatus = projectLogic.getStatus();
-            _timer = new Timer();
-            _timer.schedule(new TimerTask()
-		{
+		projectLogic = new Logic(_project.getTitle(),Status.Red);
+		ct = (CodeTemplate) _project.getTestTemplates().get(0);
+		_timer = new Timer();
+        _timer.schedule(new TimerTask()	{
 			@Override
 			public void run()
 			{
@@ -85,11 +101,11 @@ public class Project_Controller
 	{
 		if( projectLogic.getCounterActive() == true ) return;
 		projectLogic.Input(Befehl.DoRed, ct.getFilename(), codewindow.getText());
-		Status oldStatus = currStatus;
-		currStatus = projectLogic.getStatus();
-		if( currStatus == Status.Red && oldStatus != currStatus )
+		Status oldStatus = _currStatus;
+		_currStatus = projectLogic.getStatus();
+		if( _currStatus == Status.Red && oldStatus != _currStatus )
 		{
-			ct = (CodeTemplate) project.getTestTemplates().get(projectLogic.getAufgabe());
+			ct = (CodeTemplate) _project.getTestTemplates().get(projectLogic.getAufgabe());
 			fillWithTemplate();
 			statusLight.setFill(Color.RED);
 			statusAnweisung.setText("Write Test");
@@ -101,11 +117,11 @@ public class Project_Controller
 	{
 		if( projectLogic.getCounterActive() == true ) return;
 		projectLogic.Input(Befehl.DoGreen, ct.getFilename(), codewindow.getText());  //Gareth: sind es die korrekten Strings?
-		Status oldStatus = currStatus;
-		currStatus = projectLogic.getStatus();
-		if( currStatus == Status.Green && oldStatus != currStatus )
+		Status oldStatus = _currStatus;
+		_currStatus = projectLogic.getStatus();
+		if( _currStatus == Status.Green && oldStatus != _currStatus )
 		{
-			ct = project.getImplementationTemplates().get(projectLogic.getAufgabe());
+			ct = _project.getImplementationTemplates().get(projectLogic.getAufgabe());
 			fillWithTemplate();
 			statusLight.setFill(Color.GREEN);
 			statusAnweisung.setText("Write Code.");
@@ -117,8 +133,8 @@ public class Project_Controller
 	{
 		if( projectLogic.getCounterActive() == true ) return;
 		projectLogic.Input(Befehl.DoRefactoring, ct.getFilename(), codewindow.getText());  //Gareth: sind es die korrekten Strings?
-		currStatus = projectLogic.getStatus();
-		if( currStatus == Status.Refactoring )
+		_currStatus = projectLogic.getStatus();
+		if( _currStatus == Status.Refactoring )
 		{
 			statusLight.setFill(Color.BLACK);
 			statusAnweisung.setText("Refactoring");

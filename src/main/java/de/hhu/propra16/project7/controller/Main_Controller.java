@@ -1,6 +1,7 @@
 package de.hhu.propra16.project7.controller;
 
 import de.hhu.propra16.project7.catalogue.*;
+import de.hhu.propra16.project7.controller.Project_Controller;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.scene.*;
+import javafx.fxml.FXMLLoader;
 
 public class Main_Controller
 {
@@ -40,6 +42,12 @@ public class Main_Controller
 	private Catalogue catalogue = new Catalogue();
 
 	private File file = new File("Catalogue.cfg");
+	
+	private boolean _baby;
+	
+	private double _time;
+	
+	private Project_Controller pc;
 
 	public Main_Controller(){
 
@@ -83,11 +91,20 @@ public class Main_Controller
 	@FXML
 	private void handleStartButtonAction(ActionEvent event) throws IOException
 	{
+		if( babyStepsToggleGrp.getSelectedToggle() == babyStepsYes) {
+			_baby = true;
+			_time = minuten.getValue();
+			}
+		else _baby = false;
+		
 		if( aktProject == null ) return;
 		// Wechselt in das nächste Fenster, wenn der Start Button geklickt wird
 		Stage stage = (Stage) startButton.getScene().getWindow();
-		Parent root = FXMLLoader.load(getClass().getResource("/project_window.fxml"));
-		Scene scene = new Scene(root, 640, 480);
+		FXMLLoader fxmlloader = new FXMLLoader(getClass().getResource("/project_window.fxml"));
+		pc = (Project_Controller) fxmlloader.getController();
+        pc.initialData(aktProject, _baby, _time);
+        Parent root = fxmlloader.load();
+        Scene scene = new Scene(root, 640, 480);
 		stage.setScene(scene);
 		stage.setResizable(false);
 		stage.setTitle("TDDT");
@@ -113,4 +130,6 @@ public class Main_Controller
 		}
 		projects.setItems(listViewData);
 	}
+	
+
 }
